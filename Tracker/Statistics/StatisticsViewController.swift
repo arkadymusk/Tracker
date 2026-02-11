@@ -1,0 +1,11 @@
+//
+//  StatisticsViewController.swift
+//  Tracker
+//
+//  Created by Аркадий Червонный on 27.01.2026.
+//
+import UIKit
+
+final class StatisticsViewController: UIViewController {
+    
+}
