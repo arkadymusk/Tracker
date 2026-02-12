@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 extension NewHabitViewController: UITableViewDataSource, UITableViewDelegate {
 
@@ -20,9 +19,13 @@ extension NewHabitViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             cell.textLabel?.text = "Категория"
             cell.detailTextLabel?.text = categoryTitle
+            cell.backgroundColor = .systemGroupedBackground
+            cell.alpha = 0.3
         } else {
             cell.textLabel?.text = "Расписание"
             cell.detailTextLabel?.text = selectedDays.isEmpty ? "" : "\(selectedDays.count) дн."
+            cell.backgroundColor = .systemGroupedBackground
+            cell.alpha = 0.3
         }
 
         return cell
@@ -74,7 +77,8 @@ final class NewHabitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Новая привычка"
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .clear
+        tableView.backgroundColor = .clear
 
         setupNameField()
         setupTableView()
@@ -115,6 +119,7 @@ final class NewHabitViewController: UIViewController {
 
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.rowHeight = 75
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "optionCell")
     }

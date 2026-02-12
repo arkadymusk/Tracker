@@ -5,7 +5,6 @@
 //  Created by Аркадий Червонный on 04.02.2026.
 //
 
-import Foundation
 import UIKit
 
 enum Weekday: Int, CaseIterable, Hashable {
@@ -24,20 +23,5 @@ enum Weekday: Int, CaseIterable, Hashable {
     }
 }
 
-struct Tracker {
-    let id: UUID
-    let title: String
-    let color: UIColor
-    let emoji: String
-    let schedule: [Weekday]
-}
 
-struct TrackerCategory {
-    let header: String
-    let trackers: [Tracker]
-}
 
-struct TrackerRecord {
-    let trackerId: UUID
-    let date: Date
-}

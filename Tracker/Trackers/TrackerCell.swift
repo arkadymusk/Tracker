@@ -25,7 +25,7 @@ final class TrackerCell: UICollectionViewCell {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        nil
     }
 
     private func setupUI() {
@@ -124,14 +124,10 @@ final class TrackerCell: UICollectionViewCell {
 
         plusButton.backgroundColor = cardColor
 
-        if isCompletedForSelectedDate {
-            plusButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-            plusButton.alpha = 0.6
-        } else {
-            plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
-            plusButton.alpha = 1.0
-        }
-
+        let imageName = isCompletedForSelectedDate ? "checkmark" : "plus"
+        plusButton.setImage(UIImage(systemName: imageName), for: .normal)
+        plusButton.alpha = isCompletedForSelectedDate ? 0.6 : 1.0
+        
         plusButton.isEnabled = canComplete
         plusButton.alpha = canComplete ? plusButton.alpha : 0.3
     }

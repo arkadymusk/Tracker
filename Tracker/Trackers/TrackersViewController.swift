@@ -16,7 +16,11 @@ extension TrackersViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.reuseId, for: indexPath) as! TrackerCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCell.reuseId, for: indexPath)
+        
+        guard let cell = cell as? TrackerCell else {
+            return cell
+        }
 
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.item]
 
@@ -51,8 +55,12 @@ extension TrackersViewController: UICollectionViewDataSource {
                 ofKind: kind,
                 withReuseIdentifier: TrackerSectionHeader.reuseId,
                 for: indexPath
-            ) as! TrackerSectionHeader
-
+            )
+            
+            guard let header = header as? TrackerSectionHeader else {
+                return header
+            }
+            
             header.titleLabel.text = visibleCategories[indexPath.section].header
             return header
         }
@@ -165,7 +173,8 @@ final class TrackersViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+    @objc
+    func datePickerValueChanged(_ sender: UIDatePicker) {
         selectedDate = sender.date
         updateVisibleCategories()
         let dateFormatter = DateFormatter()
@@ -285,7 +294,7 @@ final class TrackersViewController: UIViewController {
         view.addSubview(placeholderImage)
         placeholderImage.translatesAutoresizingMaskIntoConstraints = false
         
-        placeholderImage.image = UIImage(named: "dizzy")
+        placeholderImage.image = UIImage(resource: .dizzy)
         
         NSLayoutConstraint.activate([
             placeholderImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),

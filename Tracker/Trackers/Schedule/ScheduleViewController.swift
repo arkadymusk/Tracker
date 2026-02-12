@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
 
@@ -21,6 +20,8 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.textLabel?.text = day.title
         cell.selectionStyle = .none
+        cell.backgroundColor = .systemGroupedBackground
+        cell.alpha = 0.3
 
         let sw = UISwitch()
         sw.isOn = selectedDays.contains(day)
@@ -41,6 +42,7 @@ final class ScheduleViewController: UIViewController {
     weak var delegate: ScheduleViewControllerDelegate?
 
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let doneButton = UIButton(type: .system)
 
     private var selectedDays: Set<Weekday>
 
@@ -50,16 +52,18 @@ final class ScheduleViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        nil
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Расписание"
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .clear
+        tableView.backgroundColor = .clear
+        navigationItem.hidesBackButton = true
 
-        setupTableView()
         setupDoneButton()
+        setupTableView()
     }
 
     private func setupTableView() {
@@ -70,31 +74,34 @@ final class ScheduleViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+            tableView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -47)
         ])
-
+        
+        tableView.layer.cornerRadius = 16
+        tableView.layer.masksToBounds = true
+        tableView.rowHeight = 75
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "dayCell")
     }
 
     private func setupDoneButton() {
-        let button = UIButton(type: .system)
-        button.setTitle("Готово", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 16
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-        button.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
+        doneButton.setTitle("Готово", for: .normal)
+        doneButton.setTitleColor(.white, for: .normal)
+        doneButton.backgroundColor = .black
+        doneButton.layer.cornerRadius = 16
+        doneButton.layer.masksToBounds = true
+        doneButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        doneButton.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
 
-        view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(doneButton)
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            button.heightAnchor.constraint(equalToConstant: 60)
+            doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            doneButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
 
