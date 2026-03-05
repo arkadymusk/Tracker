@@ -23,7 +23,19 @@ extension NewHabitViewController: UITableViewDataSource, UITableViewDelegate {
             cell.alpha = 0.3
         } else {
             cell.textLabel?.text = "Расписание"
-            cell.detailTextLabel?.text = selectedDays.isEmpty ? "" : "\(selectedDays.count) дн."
+            
+            if selectedDays.isEmpty {
+                cell.detailTextLabel?.text = ""
+            } else if selectedDays.count == 7 {
+                cell.detailTextLabel?.text = "Каждый день"
+            } else {
+                let titles = selectedDays
+                    .sorted { $0.rawValue < $1.rawValue }
+                    .map { $0.shortTitle }
+                    .joined(separator: ", ")
+                cell.detailTextLabel?.text = titles
+            }
+            
             cell.backgroundColor = .systemGroupedBackground
             cell.alpha = 0.3
         }
@@ -185,8 +197,8 @@ final class NewHabitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Новая привычка"
-        view.backgroundColor = .clear
-        tableView.backgroundColor = .clear
+        view.backgroundColor = .systemBackground
+        tableView.backgroundColor = .secondarySystemBackground
 
         addSubviews()
         setupConstraints()
@@ -276,7 +288,7 @@ final class NewHabitViewController: UIViewController {
             emojiCollectionView.topAnchor.constraint(equalTo: emojiTitleLabel.bottomAnchor, constant: 8),
             emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             emojiCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            emojiCollectionView.heightAnchor.constraint(equalToConstant: 150),
+            emojiCollectionView.heightAnchor.constraint(lessThanOrEqualToConstant: 150),
 
             colorTitleLabel.topAnchor.constraint(equalTo: emojiCollectionView.bottomAnchor, constant: 24),
             colorTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
@@ -284,7 +296,7 @@ final class NewHabitViewController: UIViewController {
             colorCollectionView.topAnchor.constraint(equalTo: colorTitleLabel.bottomAnchor, constant: 8),
             colorCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             colorCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            colorCollectionView.heightAnchor.constraint(equalToConstant: 150),
+            colorCollectionView.heightAnchor.constraint(lessThanOrEqualToConstant: 150),
 
             stack.topAnchor.constraint(equalTo: colorCollectionView.bottomAnchor, constant: 24),
             stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),

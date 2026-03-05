@@ -25,7 +25,10 @@ final class TrackerRecordStore: NSObject {
     private var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData>!
     
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("AppDelegate is not available or has unexpected type")
+        }
+        let context = appDelegate.persistentContainer.viewContext
         self.init(context: context)
     }
     
@@ -85,19 +88,19 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
     ) {
         switch type {
         case .insert:
-            guard let indexPath = newIndexPath else { fatalError() }
+            guard let indexPath = newIndexPath else { return }
             inserted.insert(indexPath.item)
         case .delete:
-            guard let indexPath = indexPath else { fatalError() }
+            guard let indexPath = indexPath else { return }
             deleted.insert(indexPath.item)
         case .update:
-            guard let indexPath = indexPath else { fatalError() }
+            guard let indexPath = indexPath else { return }
             updated.insert(indexPath.item)
         case .move:
             guard let from = indexPath?.item, let to = newIndexPath?.item else { return }
             moved.append((from: from, to: to))
         @unknown default:
-            fatalError()
+            return
         }
     }
 }
