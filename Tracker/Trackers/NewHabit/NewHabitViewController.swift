@@ -18,7 +18,7 @@ extension NewHabitViewController: UITableViewDataSource, UITableViewDelegate {
 
         if indexPath.row == 0 {
             cell.textLabel?.text = "Категория"
-            cell.detailTextLabel?.text = categoryTitle
+            cell.detailTextLabel?.text = categoryTitle ?? ""
             cell.backgroundColor = .systemGroupedBackground
             cell.alpha = 0.3
         } else {
@@ -47,7 +47,7 @@ extension NewHabitViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath.row == 0 {
-            return
+            openCategories()
         } else {
             openSchedule()
         }
@@ -192,7 +192,7 @@ final class NewHabitViewController: UIViewController {
     
     private var selectedColorIndex: Int?
 
-    private var categoryTitle: String = "Дом"
+    private var categoryTitle: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -337,10 +337,10 @@ final class NewHabitViewController: UIViewController {
     private func updateCreateButtonState() {
         let name = nameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let hasName = !name.isEmpty
-
         let hasSchedule = !selectedDays.isEmpty
+        let hasCategory = !(categoryTitle?.isEmpty ?? true)
 
-        let enabled = hasName && hasSchedule
+        let enabled = hasName && hasSchedule && hasCategory
         createButton.isEnabled = enabled
         createButton.backgroundColor = enabled ? .black : .systemGray
     }
@@ -362,13 +362,26 @@ final class NewHabitViewController: UIViewController {
             schedule: selectedDays
         )
 
-        delegate?.newHabitViewController(self, didCreate: tracker, categoryTitle: categoryTitle)
+        delegate?.newHabitViewController(self, didCreate: tracker, categoryTitle: categoryTitle ?? "")
         dismiss(animated: true)
     }
 
     private func openSchedule() {
         let vc = ScheduleViewController(selectedDays: selectedDays)
         vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func openCategories() {
+        let viewModel = CategoriesViewModel(selectedCategoryTitle: categoryTitle)
+        let vc = CategoriesViewController(viewModel: viewModel)
+
+        vc.onCategorySelected = { [weak self] title in
+            self?.categoryTitle = title
+            self?.tableView.reloadData()
+            self?.updateCreateButtonState()
+        }
+
         navigationController?.pushViewController(vc, animated: true)
     }
 }

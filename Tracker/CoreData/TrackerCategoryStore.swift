@@ -58,6 +58,40 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
+    func fetchCategories() -> [TrackerCategory] {
+        let objects = fetchedResultsController.fetchedObjects ?? []
+        return objects.map { coreData in
+            TrackerCategory(
+                header: coreData.header ?? "",
+                trackers: []
+            )
+        }
+    }
+
+    func addCategory(title: String) throws {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty else { return }
+
+        if categoryExists(with: trimmedTitle) {
+            return
+        }
+
+        let category = TrackerCategoryCoreData(context: context)
+        category.header = trimmedTitle
+
+        try context.save()
+        try fetchedResultsController.performFetch()
+    }
+
+    private func categoryExists(with title: String) -> Bool {
+        let request = TrackerCategoryCoreData.fetchRequest() as NSFetchRequest<TrackerCategoryCoreData>
+        request.predicate = NSPredicate(format: "header == %@", title)
+        request.fetchLimit = 1
+
+        let result = try? context.fetch(request)
+        return !(result?.isEmpty ?? true)
+    }
+    
     private func resetChanges() {
         inserted.removeAll()
         deleted.removeAll()
