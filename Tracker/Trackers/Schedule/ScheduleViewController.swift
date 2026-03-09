@@ -21,15 +21,28 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.text = day.title
         cell.selectionStyle = .none
         cell.backgroundColor = .systemGroupedBackground
-        cell.alpha = 0.3
 
         let sw = UISwitch()
         sw.isOn = selectedDays.contains(day)
+        sw.onTintColor = .systemBlue
         sw.tag = day.rawValue
         sw.addTarget(self, action: #selector(switchChanged(_:)), for: .valueChanged)
         cell.accessoryView = sw
 
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
+
+        let lastRow = tableView.numberOfRows(inSection: indexPath.section) - 1
+
+        if indexPath.row == lastRow {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
     }
 }
 
@@ -41,7 +54,7 @@ final class ScheduleViewController: UIViewController {
 
     weak var delegate: ScheduleViewControllerDelegate?
 
-    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView = UITableView(frame: .zero, style: .plain)
     private let doneButton = UIButton(type: .system)
 
     private var selectedDays: Set<Weekday>
@@ -58,8 +71,8 @@ final class ScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Расписание"
-        view.backgroundColor = .clear
-        tableView.backgroundColor = .clear
+        view.backgroundColor = .systemBackground
+        tableView.backgroundColor = .secondarySystemBackground
         navigationItem.hidesBackButton = true
 
         setupDoneButton()
@@ -71,10 +84,10 @@ final class ScheduleViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -47)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.heightAnchor.constraint(lessThanOrEqualToConstant: 525)
         ])
         
         tableView.layer.cornerRadius = 16
@@ -82,6 +95,7 @@ final class ScheduleViewController: UIViewController {
         tableView.rowHeight = 75
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView(frame: .zero)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "dayCell")
     }
 

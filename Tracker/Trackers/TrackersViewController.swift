@@ -103,11 +103,22 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: NewHabitViewControllerDelegate {
     func newHabitViewController(_ vc: NewHabitViewController, didCreate tracker: Tracker, categoryTitle: String) {
-        addTracker(tracker, to: categoryTitle)
+        do {
+            try trackerStore.addTracker(tracker, toCategory: categoryTitle)
+        } catch {
+            assertionFailure("Failed to save tracker: \(error)")
+        }
+    }
+}
+
+extension TrackersViewController: TrackerStoreDelegate {
+    func trackerStore(_ store: TrackerStore, didUpdate update: StoreUpdate) {
+        categories = store.categories
     }
 }
 
 final class TrackersViewController: UIViewController {
+    private let trackerStore = TrackerStore()
     private let placeholderLabel = UILabel()
     private let placeholderImage = UIImageView()
     private let searchController = UISearchController(searchResultsController: nil)
@@ -158,19 +169,9 @@ final class TrackersViewController: UIViewController {
         updatePlaceholder()
         setupPlaceholderImage()
         setupPlaceholderLabel()
-        
-        
-        categories = [
-            TrackerCategory(header: "Дом", trackers: [
-                Tracker(id: UUID(), title: "Полить цветы", color: .ypBlue, emoji: "🌿", schedule: [.monday, .wednesday]),
-                Tracker(id: UUID(), title: "пропылесосить", color: .black, emoji: "🌿", schedule: [.monday, .wednesday])
-            ]),
-            TrackerCategory(header: "Учеба", trackers: [
-                Tracker(id: UUID(), title: "Homework", color: .ypLightGray, emoji: ")", schedule: [.monday, .wednesday])
-            ])
-        ]
-        updatePlaceholder()
-        collectionView.reloadData()
+
+        trackerStore.delegate = self
+        categories = trackerStore.categories
     }
     
     @objc
@@ -180,20 +181,11 @@ final class TrackersViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
         let formattedDate = dateFormatter.string(from: selectedDate)
-        print("Выбранная дата: \(formattedDate)")
         collectionView.reloadData()
     }
     
     private func updateVisibleCategories() {
-        let day = selectedDate.weekday()
-
-        visibleCategories = categories.compactMap { category in
-            let filtered = category.trackers.filter { tracker in
-                tracker.schedule.contains(day)
-            }
-            return filtered.isEmpty ? nil : TrackerCategory(header: category.header, trackers: filtered)
-        }
-
+        visibleCategories = makeVisibleCategories(from: categories)
         collectionView.reloadData()
         updatePlaceholder()
     }
@@ -221,18 +213,14 @@ final class TrackersViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    private func addTracker(_ tracker: Tracker, to header: String) {
-        if let idx = categories.firstIndex(where: { $0.header == header }) {
-            let oldCategory = categories[idx]
-            let updatedCategory = TrackerCategory(
-                header: oldCategory.header,
-                trackers: oldCategory.trackers + [tracker]
-            )
-            var newCategories = categories
-            newCategories[idx] = updatedCategory
-            categories = newCategories
-        } else {
-            categories = categories + [TrackerCategory(header: header, trackers: [tracker])]
+    private func makeVisibleCategories(from categories: [TrackerCategory]) -> [TrackerCategory] {
+        let day = selectedDate.weekday()
+
+        return categories.compactMap { category in
+            let filtered = category.trackers.filter { tracker in
+                tracker.schedule.contains(day)
+            }
+            return filtered.isEmpty ? nil : TrackerCategory(header: category.header, trackers: filtered)
         }
     }
     

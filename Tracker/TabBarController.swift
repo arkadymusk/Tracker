@@ -13,6 +13,13 @@ final class TabBarController: UITabBarController {
         
         view.backgroundColor = .systemBackground
         
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemBackground
+        appearance.shadowColor = UIColor.separator
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance
+        
         let trackersVS = TrackersViewController()
         trackersVS.tabBarItem = UITabBarItem(
             title: "Трекеры",
