@@ -70,7 +70,7 @@ final class ScheduleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Расписание"
+        title = NSLocalizedString("schedule.title", comment: "")
         view.backgroundColor = .systemBackground
         tableView.backgroundColor = .secondarySystemBackground
         navigationItem.hidesBackButton = true
@@ -100,7 +100,7 @@ final class ScheduleViewController: UIViewController {
     }
 
     private func setupDoneButton() {
-        doneButton.setTitle("Готово", for: .normal)
+        doneButton.setTitle(NSLocalizedString("schedule.doneButton.title", comment: ""), for: .normal)
         doneButton.setTitleColor(.white, for: .normal)
         doneButton.backgroundColor = .black
         doneButton.layer.cornerRadius = 16

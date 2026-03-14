@@ -96,18 +96,10 @@ final class TrackerCell: UICollectionViewCell {
     }
 
     private func daysText(_ days: Int) -> String {
-        if days == 11 || days == 12 || days == 13 || days == 14{
-            return "\(days) дней"
-        }
-        
-        switch days % 10 {
-        case 2, 3, 4:
-            return "\(days) дня"
-        case 1:
-            return "\(days) день"
-        default:
-            return "\(days) дней"
-        }
+        String.localizedStringWithFormat(
+            NSLocalizedString("tracker.daysCount", comment: ""),
+            days
+        )
     }
     func configure(title: String,
                    emoji: String,

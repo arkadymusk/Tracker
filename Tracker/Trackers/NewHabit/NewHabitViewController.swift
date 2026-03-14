@@ -17,17 +17,17 @@ extension NewHabitViewController: UITableViewDataSource, UITableViewDelegate {
         cell.accessoryType = .disclosureIndicator
 
         if indexPath.row == 0 {
-            cell.textLabel?.text = "Категория"
+            cell.textLabel?.text = NSLocalizedString("newHabit.table.category", comment: "")
             cell.detailTextLabel?.text = categoryTitle ?? ""
             cell.backgroundColor = .systemGroupedBackground
             cell.alpha = 0.3
         } else {
-            cell.textLabel?.text = "Расписание"
+            cell.textLabel?.text = NSLocalizedString("newHabit.table.schedule", comment: "")
             
             if selectedDays.isEmpty {
                 cell.detailTextLabel?.text = ""
             } else if selectedDays.count == 7 {
-                cell.detailTextLabel?.text = "Каждый день"
+                cell.detailTextLabel?.text = NSLocalizedString("newHabit.table.everyday", comment: "")
             } else {
                 let titles = selectedDays
                     .sorted { $0.rawValue < $1.rawValue }
@@ -196,7 +196,7 @@ final class NewHabitViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Новая привычка"
+        title = NSLocalizedString("newHabit.title", comment: "")
         view.backgroundColor = .systemBackground
         tableView.backgroundColor = .secondarySystemBackground
 
@@ -212,7 +212,7 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupColorCollection() {
-        colorTitleLabel.text = "Цвет"
+        colorTitleLabel.text = NSLocalizedString("newHabit.colorCollection.title", comment: "")
         colorTitleLabel.font = .systemFont(ofSize: 19, weight: .bold)
         
         colorCollectionView.delegate = self
@@ -222,7 +222,7 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupEmojiCollection() {
-        emojiTitleLabel.text = "Emoji"
+        emojiTitleLabel.text = NSLocalizedString("newHabit.emojiCollection.title", comment: "")
         emojiTitleLabel.font = .systemFont(ofSize: 19, weight: .bold)
         
         emojiCollectionView.delegate = self
@@ -232,7 +232,7 @@ final class NewHabitViewController: UIViewController {
     }
 
     private func setupNameField() {
-        nameTextField.placeholder = "Введите название трекера"
+        nameTextField.placeholder = NSLocalizedString("newHabit.nameField.placeholder", comment: "")
         nameTextField.backgroundColor = .secondarySystemBackground
         nameTextField.layer.cornerRadius = 16
         nameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 1))
@@ -251,14 +251,14 @@ final class NewHabitViewController: UIViewController {
     }
 
     private func setupBottomButtons() {
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(NSLocalizedString("newHabit.cancelButton.title", comment: ""), for: .normal)
         cancelButton.setTitleColor(.systemRed, for: .normal)
         cancelButton.layer.cornerRadius = 16
         cancelButton.layer.borderWidth = 1
         cancelButton.layer.borderColor = UIColor.systemRed.cgColor
         cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
 
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(NSLocalizedString("newHabit.createButton.title", comment: ""), for: .normal)
         createButton.setTitleColor(.white, for: .normal)
         createButton.layer.cornerRadius = 16
         createButton.backgroundColor = .systemGray

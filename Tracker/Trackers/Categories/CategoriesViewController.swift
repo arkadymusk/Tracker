@@ -25,13 +25,13 @@ final class CategoriesViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        nil
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Категория"
+        title = NSLocalizedString("categories.title", comment: "")
 
         setupUI()
         setupConstraints()
@@ -76,14 +76,14 @@ final class CategoriesViewController: UIViewController {
         placeholderImageView.image = UIImage(resource: .dizzy)
         placeholderImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        placeholderLabel.text = "Привычки и события можно объединить по смыслу"
+        placeholderLabel.text = NSLocalizedString("categories.placeholder", comment: "")
         placeholderLabel.numberOfLines = 2
         placeholderLabel.textAlignment = .center
         placeholderLabel.font = .systemFont(ofSize: 12, weight: .medium)
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         
 
-        addButton.setTitle("Добавить категорию", for: .normal)
+        addButton.setTitle(NSLocalizedString("categories.addButton.title", comment: ""), for: .normal) 
         addButton.setTitleColor(.white, for: .normal)
         addButton.backgroundColor = .black
         addButton.layer.cornerRadius = 16

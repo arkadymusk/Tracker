@@ -28,7 +28,7 @@ final class FirstPageViewController: UIViewController {
         
         backgroundImage.image = UIImage(resource: .firstPageOnboarding)
         
-        doneButton.setTitle("Вот это Технологии!", for: .normal)
+        doneButton.setTitle(NSLocalizedString("firstPage.doneButton.title", comment: ""), for: .normal)
         doneButton.titleLabel?.font = .systemFont(ofSize: 16)
         doneButton.setTitleColor(.white, for: .normal)
         doneButton.layer.cornerRadius = 16
@@ -36,7 +36,7 @@ final class FirstPageViewController: UIViewController {
         doneButton.backgroundColor = .black
         doneButton.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
         
-        textLabel.text = "Отслеживайте только то, что хотите"
+        textLabel.text = NSLocalizedString("firstPage.title", comment: "")
         textLabel.font = .systemFont(ofSize: 32, weight: .bold)
         textLabel.numberOfLines = 0
         textLabel.textAlignment = .center

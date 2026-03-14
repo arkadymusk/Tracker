@@ -15,21 +15,21 @@ final class TabBarController: UITabBarController {
         
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemBackground
+        appearance.backgroundColor = UIColor(resource: .appBackground)
         appearance.shadowColor = UIColor.separator
         tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
         
         let trackersVS = TrackersViewController()
         trackersVS.tabBarItem = UITabBarItem(
-            title: "Трекеры",
+            title: NSLocalizedString("tabbar.trackers.title", comment: ""),
             image: UIImage(named: "tabBarCircle"),
             selectedImage: nil
         )
         
         let statsVS = StatisticsViewController()
         statsVS.tabBarItem = UITabBarItem(
-            title: "Статистика",
+            title: NSLocalizedString("tabbar.stats.title", comment: ""),
             image: UIImage(named: "tabBarHare"),
             selectedImage: nil
         )
