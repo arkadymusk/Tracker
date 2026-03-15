@@ -28,7 +28,7 @@ final class SecondPageViewController: UIViewController {
         
         backgroundImage.image = UIImage(resource: .secondPageOnboarding)
         
-        doneButton.setTitle("Вот это Технологии!", for: .normal)
+        doneButton.setTitle(NSLocalizedString("secondPage.doneButton.title", comment: ""), for: .normal)
         doneButton.titleLabel?.font = .systemFont(ofSize: 16)
         doneButton.setTitleColor(.white, for: .normal)
         doneButton.layer.cornerRadius = 16
@@ -36,7 +36,7 @@ final class SecondPageViewController: UIViewController {
         doneButton.backgroundColor = .black
         doneButton.addTarget(self, action: #selector(didTapDone), for: .touchUpInside)
         
-        textLabel.text = "Даже если это не литры воды и йога"
+        textLabel.text = NSLocalizedString("secondPage.title", comment: "")
         textLabel.font = .systemFont(ofSize: 32, weight: .bold)
         textLabel.numberOfLines = 0
         textLabel.textAlignment = .center

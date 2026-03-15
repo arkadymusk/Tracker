@@ -16,14 +16,14 @@ final class NewCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Новая категория"
+        title = NSLocalizedString("newCategory.title", comment: "")
 
         setupUI()
         setupConstraints()
     }
 
     private func setupUI() {
-        titleTextField.placeholder = "Введите название категории"
+        titleTextField.placeholder = NSLocalizedString("newCategory.textField.placeholder", comment: "")
         titleTextField.backgroundColor = .secondarySystemBackground
         titleTextField.layer.cornerRadius = 16
         titleTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 1))
@@ -31,7 +31,7 @@ final class NewCategoryViewController: UIViewController {
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
         titleTextField.addTarget(self, action: #selector(textChanged), for: .editingChanged)
 
-        doneButton.setTitle("Готово", for: .normal)
+        doneButton.setTitle(NSLocalizedString("newCategory.doneButton.title", comment: ""), for: .normal)
         doneButton.setTitleColor(.white, for: .normal)
         doneButton.backgroundColor = .systemGray
         doneButton.layer.cornerRadius = 16
