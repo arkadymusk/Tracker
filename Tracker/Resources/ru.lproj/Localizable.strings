@@ -47,3 +47,19 @@
 "tabbar.trackers.title" = "Трекеры";
 "tabbar.stats.title" = "Статистика";
 
+"filtres.title" = "Фильтры";
+"filtres.all" = "Все трекеры";
+"filtres.today" = "Трекеры на сегодня";
+"filtres.completed" = "Завершённые";
+"filtres.uncompleted" = "Не завершённые";
+
+"statistics.placeholder" = "Анализировать пока нечего";
+"statistics.completed" = "Трекеров завершено";
+"statistics.title" = "Статистика";
+
+"trackers.filtres" = "Фильтры";
+"editHabit.title" = "Редактирование привычки";
+"editHabit.saveButton.title" = "Сохранить";
+
+"trackers.editAction.title" = "Редактировать";
+"trackers.deleteAction.title" = "Удалить";

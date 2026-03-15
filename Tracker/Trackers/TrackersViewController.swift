@@ -40,6 +40,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         )
 
         cell.onToggle = { [weak self] in
+            AnalyticsService.report(event: .click, screen: .main, item: .track)
             self?.toggleCompleted(trackerId: tracker.id)
         }
 
@@ -99,6 +100,53 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         CGSize(width: collectionView.bounds.width, height: 30)
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                        point: CGPoint) -> UIContextMenuConfiguration? {
+        let tracker = visibleCategories[indexPath.section].trackers[indexPath.item]
+        let categoryTitle = visibleCategories[indexPath.section].header
+
+        return UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: nil) { [weak self] _ in
+            guard let self else { return nil }
+
+            let editAction = UIAction(title: NSLocalizedString("trackers.editAction.title", comment: "")) { _ in
+                AnalyticsService.report(event: .click, screen: .main, item: .edit)
+                
+                self.editTracker(tracker, categoryTitle: categoryTitle)
+            }
+
+            let deleteAction = UIAction(title: NSLocalizedString("trackers.deleteAction.title", comment: ""), attributes: .destructive) { _ in
+                AnalyticsService.report(event: .click, screen: .main, item: .delete)
+                
+                self.deleteTracker(tracker)
+            }
+
+            return UIMenu(title: "", children: [editAction, deleteAction])
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+        guard
+            let identifier = configuration.identifier as? IndexPath,
+            let cell = collectionView.cellForItem(at: identifier) as? TrackerCell
+        else {
+            return nil
+        }
+
+        let parameters = UIPreviewParameters()
+        parameters.backgroundColor = .clear
+        parameters.visiblePath = UIBezierPath(
+            roundedRect: cell.contextMenuPreviewView.bounds,
+            cornerRadius: 16
+        )
+
+        return UITargetedPreview(
+            view: cell.contextMenuPreviewView,
+            parameters: parameters
+        )
+    }
 }
 
 extension TrackersViewController: NewHabitViewControllerDelegate {
@@ -114,6 +162,18 @@ extension TrackersViewController: NewHabitViewControllerDelegate {
 extension TrackersViewController: TrackerStoreDelegate {
     func trackerStore(_ store: TrackerStore, didUpdate update: StoreUpdate) {
         categories = store.categories
+    }
+}
+
+extension TrackersViewController: EditHabitViewControllerDelegate {
+    func editHabitViewController(_ vc: EditHabitViewController,
+                                 didUpdate tracker: Tracker,
+                                 categoryTitle: String) {
+        do {
+            try trackerStore.updateTracker(tracker, categoryTitle: categoryTitle)
+        } catch {
+            assertionFailure("Failed to update tracker: \(error)")
+        }
     }
 }
 
@@ -142,7 +202,7 @@ final class TrackersViewController: UIViewController {
     private let filterButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Фильтры", for: .normal)
+        button.setTitle(NSLocalizedString("trackers.filtres", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemBlue
         button.layer.cornerRadius = 16
@@ -195,6 +255,19 @@ final class TrackersViewController: UIViewController {
         categories = trackerStore.categories
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        AnalyticsService.report(event: .open, screen: .main)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        if self.isBeingDismissed || self.isMovingFromParent {
+            AnalyticsService.report(event: .close, screen: .main)
+        }
+    }
+    
     @objc
     func datePickerValueChanged(_ sender: UIDatePicker) {
         selectedDate = sender.date
@@ -207,15 +280,25 @@ final class TrackersViewController: UIViewController {
         collectionView.reloadData()
     }
     
-//    @objc
-//    func datePickerValueChanged(_ sender: UIDatePicker) {
-//        selectedDate = sender.date
-//        updateVisibleCategories()
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "dd.MM.yyyy"
-//        let formattedDate = dateFormatter.string(from: selectedDate)
-//        collectionView.reloadData()
-//    }
+    private func editTracker(_ tracker: Tracker, categoryTitle: String) {
+        let vc = EditHabitViewController(
+            tracker: tracker,
+            categoryTitle: categoryTitle,
+            completedDaysCount: completionsCount(trackerId: tracker.id)
+        )
+        vc.delegate = self
+
+        let nav = UINavigationController(rootViewController: vc)
+        present(nav, animated: true)
+    }
+
+    private func deleteTracker(_ tracker: Tracker) {
+        do {
+            try trackerStore.deleteTracker(tracker)
+        } catch {
+            assertionFailure("Failed to delete tracker: \(error)")
+        }
+    }
     
     private func setupFilterButton() {
         view.addSubview(filterButton)
@@ -235,6 +318,8 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func didTapFilterButton() {
+        AnalyticsService.report(event: .click, screen: .main, item: .filter)
+        
         let vc = FiltersViewController(selectedFilter: selectedFilter)
         vc.onFilterSelected = { [weak self] filter in
             self?.applyFilter(filter)
@@ -304,6 +389,8 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func didTapPlusButton() {
+        AnalyticsService.report(event: .click, screen: .main, item: .addTrack)
+        
         let createVC = NewHabitViewController()
         createVC.delegate = self
 

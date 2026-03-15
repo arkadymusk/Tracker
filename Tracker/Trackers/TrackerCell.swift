@@ -13,6 +13,9 @@ final class TrackerCell: UICollectionViewCell {
     var onToggle: (() -> Void)?
 
     private let cardView = UIView()
+    var contextMenuPreviewView: UIView {
+        cardView
+    }
     private let emojiLabel = UILabel()
     private let titleLabel = UILabel()
 

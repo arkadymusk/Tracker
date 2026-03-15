@@ -124,6 +124,26 @@ final class TrackerStore: NSObject {
 
         try context.save()
     }
+    
+    func updateTracker(_ tracker: Tracker, categoryTitle: String) throws {
+        let request = TrackerCoreData.fetchRequest() as NSFetchRequest<TrackerCoreData>
+        request.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        request.fetchLimit = 1
+
+        guard let trackerCoreData = try context.fetch(request).first else {
+            return
+        }
+
+        let category = fetchCategory(with: categoryTitle) ?? createCategory(with: categoryTitle)
+
+        trackerCoreData.title = tracker.title
+        trackerCoreData.emoji = tracker.emoji
+        trackerCoreData.color = Int64(tracker.color.toHex())
+        trackerCoreData.schedule = encodeSchedule(tracker.schedule)
+        trackerCoreData.category = category
+
+        try context.save()
+    }
 
     private func fetchCategory(with title: String) -> TrackerCategoryCoreData? {
         let request = TrackerCategoryCoreData.fetchRequest() as NSFetchRequest<TrackerCategoryCoreData>
@@ -136,6 +156,18 @@ final class TrackerStore: NSObject {
         let category = TrackerCategoryCoreData(context: context)
         category.header = title
         return category
+    }
+    
+    func deleteTracker(_ tracker: Tracker) throws {
+        let request = TrackerCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        request.fetchLimit = 1
+
+        let result = try context.fetch(request)
+        guard let object = result.first else { return }
+
+        context.delete(object)
+        try context.save()
     }
 
     private func encodeSchedule(_ schedule: [Weekday]) -> Data? {

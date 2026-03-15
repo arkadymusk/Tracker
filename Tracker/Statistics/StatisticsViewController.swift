@@ -21,7 +21,7 @@ final class StatisticsViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        title = "Статистика"
+        title = NSLocalizedString("statistics.title", comment: "")
         navigationController?.navigationBar.prefersLargeTitles = true
 
         setupPlaceholder()
@@ -67,7 +67,7 @@ final class StatisticsViewController: UIViewController {
         placeholderImageView.image = UIImage(resource: .smile)
 
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        placeholderLabel.text = "Анализировать пока нечего"
+        placeholderLabel.text = NSLocalizedString("statistics.placeholder", comment: "")
         placeholderLabel.font = .systemFont(ofSize: 12, weight: .medium)
         placeholderLabel.textAlignment = .center
 
@@ -88,7 +88,7 @@ final class StatisticsViewController: UIViewController {
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = .systemFont(ofSize: 12, weight: .medium)
-        titleLabel.text = "Трекеров завершено"
+        titleLabel.text = NSLocalizedString("statistics.completed", comment: "")
 
         view.addSubview(cardView)
         cardView.addSubview(valueLabel)

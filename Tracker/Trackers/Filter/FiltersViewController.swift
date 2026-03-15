@@ -25,7 +25,7 @@ final class FiltersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "Фильтры"
+        title = NSLocalizedString("filtres.title", comment: "")
 
         setupTableView()
         setupConstraints()
@@ -67,7 +67,7 @@ extension FiltersViewController: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = .secondarySystemBackground
         cell.selectionStyle = .none
 
-        if filter == selectedFilter && filter != .all {
+        if filter == selectedFilter && filter != .all && filter != .today {
             cell.accessoryType = .checkmark
             cell.tintColor = .systemBlue
         } else {

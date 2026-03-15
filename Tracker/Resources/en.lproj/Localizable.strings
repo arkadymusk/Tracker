@@ -1,49 +1,66 @@
-"firstPage.doneButton.title" = "Вот это Технологии!";
-"firstPage.title" = "Отслеживайте только то, что хотите";
+"firstPage.doneButton.title" = "These are the Technologies!";
+"firstPage.title" = "Track only what you want";
 
-"secondPage.doneButton.title" = "Вот это Технологии!";
-"secondPage.title" = "Даже если это не литры воды и йога";
+"secondPage.doneButton.title" = "These are the Technologies!";
+"secondPage.title" = "Even if it's not liters of water and yoga";
 
-"categories.title" = "Категория";
-"categories.placeholder" = "Привычки и события можно объединить по смыслу";
-"categories.addButton.title" = "Добавить категорию";
+"categories.title" = "Category";
+"categories.placeholder" = "Habits and events can be combined in meaning.";
+"categories.addButton.title" = "Add a category";
 
-"newCategory.textField.placeholder" = "Введите название категории";
-"newCategory.doneButton.title" = "Готово";
-"newCategory.title" = "Новая категория";
+"newCategory.textField.placeholder" = "Enter the category name";
+"newCategory.doneButton.title" = "Done";
+"newCategory.title" = "New category";
 
-"weekDay.title.monday" = "Понедельник";
-"weekDay.title.tuesday" = "Вторник";
-"weekDay.title.wednesday" = "Среда";
-"weekDay.title.thursday" = "Четверг";
-"weekDay.title.friday" = "Пятница";
-"weekDay.title.saturday" = "Суббота";
-"weekDay.title.sunday" = "Воскресенье";
-"weekDay.shortTitle.monday" = "Пн";
-"weekDay.shortTitle.tuesday" = "Вт";
-"weekDay.shortTitle.wednesday" = "Ср";
-"weekDay.shortTitle.thursday" = "Чт";
-"weekDay.shortTitle.friday" = "Пт";
-"weekDay.shortTitle.saturday" = "Сб";
-"weekDay.shortTitle.sunday" = "Вс";
+"weekDay.title.monday" = "Monday";
+"weekDay.title.tuesday" = "Tuesday";
+"weekDay.title.wednesday" = "Wednesday";
+"weekDay.title.thursday" = "Thursday";
+"weekDay.title.friday" = "Friday";
+"weekDay.title.saturday" = "Saturday";
+"weekDay.title.sunday" = "Sunday";
+"weekDay.shortTitle.monday" = "Mon";
+"weekDay.shortTitle.tuesday" = "Tue";
+"weekDay.shortTitle.wednesday" = "Wed";
+"weekDay.shortTitle.thursday" = "Thu";
+"weekDay.shortTitle.friday" = "Fri";
+"weekDay.shortTitle.saturday" = "Sat";
+"weekDay.shortTitle.sunday" = "Sun";
 
-"newHabit.title" = "Новая привычка";
-"newHabit.table.category" = "Категория";
-"newHabit.table.schedule" = "Расписание";
-"newHabit.table.everyday" = "Каждый день";
-"newHabit.colorCollection.title" = "Цвет";
+"newHabit.title" = "A new habit";
+"newHabit.table.category" = "Category";
+"newHabit.table.schedule" = "Schedule";
+"newHabit.table.everyday" = "Every day";
+"newHabit.colorCollection.title" = "Colour";
 "newHabit.emojiCollection.title" = "Emoji";
-"newHabit.nameField.placeholder" = "Введите название трекера";
-"newHabit.cancelButton.title" = "Отменить";
-"newHabit.createButton.title" = "Создать";
+"newHabit.nameField.placeholder" = "Enter the name of the tracker";
+"newHabit.cancelButton.title" = "Cancel";
+"newHabit.createButton.title" = "To create";
 
-"schedule.title" = "Расписание";
-"schedule.doneButton.title" = "Готово";
+"schedule.title" = "Schedule";
+"schedule.doneButton.title" = "Done";
 
-"trackers.title" = "Трекеры";
-"trackers.search.placeholder" = "Поиск";
-"trackers.placeholder" = "Что будем отслеживать?";
+"trackers.title" = "Trackers";
+"trackers.search.placeholder" = "Search";
+"trackers.placeholder" = "What are we going to track?";
 
-"tabbar.trackers.title" = "Трекеры";
-"tabbar.stats.title" = "Статистика";
+"tabbar.trackers.title" = "Trackers";
+"tabbar.stats.title" = "Statistics";
+
+"filtres.title" = "Filters";
+"filtres.all" = "All trackers";
+"filtres.today" = "Trackers for today";
+"filtres.completed" = "Completed";
+"filtres.uncompleted" = "Not completed";
+
+"statistics.placeholder" = "There is nothing to analyze yet";
+"statistics.completed" = "Trackers completed";
+"statistics.title" = "Statistics";
+
+"trackers.filtres" = "Filters";
+"editHabit.title" = "Editing a Habit";
+"editHabit.saveButton.title" = "Save";
+
+"trackers.editAction.title" = "Edit";
+"trackers.deleteAction.title" = "Remove";
 
